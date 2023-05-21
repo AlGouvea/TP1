@@ -1,6 +1,6 @@
-from main import read_json
+from main import valida_registro
 
-def test_hw():
-    teste = read_json()
-    
-    assert teste == {'hello': 'world!'}
+def test_valida_registro():
+    path = 'files/test_files/registro.json'
+    registro = valida_registro(path)
+    assert registro == [100, 60, 0]

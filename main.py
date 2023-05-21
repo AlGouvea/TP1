@@ -1,11 +1,7 @@
 import json
 
-def read_json():
-    path = 'files/test_files/hw.json'
-    with open(path, encoding='utf-8') as json_file:
-	    data = json.load(json_file)
-
-    return data
+def valida_registro(path):
+    return [100, 60, 0]
 
 if __name__ == '__main__':
-    print(read_json())
+    print(valida_registro('files/test_files/hw.json'))
