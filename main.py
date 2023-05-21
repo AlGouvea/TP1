@@ -4,6 +4,16 @@ def valida_registro(path):
     return [100, 60, 0] 
 
 def valida_campo(chave, valor):
+    if chave == 'Nome':
+        for n in valor:
+            res = valida_campo(n, valor[n])
+            if res == 1:
+                return 1    
+        return 0
+    
+    elif valor == '':
+        return 0
+
     return 1
 
 
