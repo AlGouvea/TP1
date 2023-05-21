@@ -1,4 +1,5 @@
 from main import valida_registro, valida_campo
+from pytest import raises
 
 PARAMETHER = [[{"cpf": ""}, 0],
               [{"Nome": {"PrimeiroNome": "João", "NomeMeio": "", "UltimoNome": "Silva"}}, 1], 
@@ -9,6 +10,23 @@ def test_valida_registro():
     registro = valida_registro(path)
     assert registro == [100, 60, 0]
 
+def test_valida_registro_bad_format():
+    path = 'files/test_files/hw.json'
+    with raises(ValueError) as exc_info:
+        valida_registro(path)
+    assert str(exc_info.value) == "Bad format"
+
+def test_valida_registro_null_path():
+    path = ''
+    with raises(ValueError) as exc_info:
+        valida_registro(path)
+    assert str(exc_info.value) == "Null path exception"
+
+def test_valida_registro_not_found():
+    path = '/foo/barr'
+    with raises(ValueError) as exc_info:
+        valida_registro(path)
+    assert str(exc_info.value) == "File not found"
 
 def test_valida_campo_cpf():
     chave = 'cpf'

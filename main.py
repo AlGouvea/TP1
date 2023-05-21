@@ -1,14 +1,22 @@
 import json
 
 def valida_registro(path):
-    with open(path, encoding='utf-8') as json_file:
-        data = json.load(json_file)
+    if(path == ''):
+        raise ValueError("Null path exception")
+    
+    try:
+        with open(path, encoding='utf-8') as json_file:
+            data = json.load(json_file)
+    except FileNotFoundError as e:
+        raise ValueError("File not found") from e
     
     reg_list = []
     for _, inner_dict in data.items():
-        reg_list.append(inner_dict)
-
-    #print(reg_list)
+        if not isinstance(inner_dict, dict):
+            print("Bad format!")
+            raise ValueError("Bad format")
+        else:
+            reg_list.append(inner_dict)
 
     res = []
     for r in reg_list:
