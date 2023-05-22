@@ -19,26 +19,59 @@ def valida_registro(path):
             reg_list.append(inner_dict)
 
     res = []
-    for r in reg_list:
+    for registro in reg_list:
         val = 0
-        for i in r.items():
-            val += valida_campo(i[0], i[1])
+        for item in registro.items():
+            #Fora de info dos autores
+            if item[0] == 'title' or item[0] == 'publicationDate' or item[0] == 'language':
+                val += valida_campo(item[0], item[1])
+
+            #Info dos autores
+            completude_autores = 0
+            total_autores = 0
+            if item[0] == 'authors':
+                for author in item[1]:
+                    total_autores += 1
+                    val_author = 0
+                    identifier = {}
+                    nationality = {}
+                    for it in author.items():
+                        if it[0] == 'identifier.lattes' or it[0] == 'identifier.orcid':
+                            identifier.update({it[0]: it[1]})
+                        if it[0] == 'nationality' or it[0] == 'birthState' or it[0] == 'birthCity' or it[0] == 'birthCountry':
+                            nationality.update({it[0]: it[1]})
+
+                    val_author += valida_campo('identifier', identifier)
+                    val_author += valida_campo('Nationality', nationality)
+                    completude_autores += val_author
+
+                val += (completude_autores/total_autores)
 
         res.append(100*(val/5))
 
-    return res 
+    return res
 
 def valida_campo(chave, valor):
-    if chave == 'Nome':
+    #Regra OR Inclusivo
+    res = 0
+    if chave == 'Nationality' and valor:
+            for n in valor:
+                res = valida_campo(n, valor[n])
+                if res == 1:
+                    return 1    
+            return 0
+    # Regra OR Exclusivo
+    elif chave == 'identifier' and valor:
         for n in valor:
-            res = valida_campo(n, valor[n])
-            if res == 1:
-                return 1    
+            res += valida_campo(n, valor[n]) 
+        if res == 1:
+            return 1
+        else:
+            return 0
+    # Se valor atomico ou dicionario forem vazios
+    elif valor == '' or not valor:
         return 0
     
-    elif valor == '':
-        return 0
-
     return 1
 
 
