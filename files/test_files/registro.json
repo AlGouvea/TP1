@@ -1,0 +1,35 @@
+{
+    "registro1": {
+      "CPF": "123456789",
+      "Matricula": "987654321",
+      "Sexo": "Masculino",
+      "Email": "exemplo1@teste.com",
+      "Nome": {
+        "PrimeiroNome": "João",
+        "NomeMeio": "",
+        "UltimoNome": "Silva"
+      }
+    },
+    "registro2": {
+      "CPF": "",
+      "Matricula": "111222333",
+      "Sexo": "",
+      "Email": "exemplo2@teste.com",
+      "Nome": {
+        "PrimeiroNome": "Maria",
+        "NomeMeio": "Souza",
+        "UltimoNome": ""
+      }
+    },
+    "registro3": {
+      "CPF": "",
+      "Matricula": "",
+      "Sexo": "",
+      "Email": "",
+      "Nome": {
+        "PrimeiroNome": "",
+        "NomeMeio": "",
+        "UltimoNome":""
+      }
+    }
+}
