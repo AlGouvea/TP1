@@ -14,6 +14,12 @@ TPPE - Técnicas de Programação para Plataformas Emergentes
 |18/0149687|Daniel Porto de Souza|
 |18/0136925|Hugo Rocha de Moura|
 
+### Estrutura
+
+Os testes podem ser acessados no arquivo test_main.py
+
+O código da solução desenvolvida está no arquivo main.py
+
 ### Uso
 
 **Tecnologias:** Docker, make, python, pytest
