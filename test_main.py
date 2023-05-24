@@ -6,10 +6,23 @@ PARAMETHER = [[{"title": ""}, 0],
               [{"identifier": {"identifier.lattes": "6783234820", "identifier.orcid": "4783927436729W"}}, 0],
               [{"authors": {"nome" : "Luciana Veloso da Costa", "ordemAutoria" : "1", "citationName" : "" }}, 1]]
 
-def test_valida_registro():
-    path = 'files/test_files/registro.json'
-    registro = valida_registro(path)
-    assert registro == [67.5, 66.66666666666667, 68.0, 65.0, 65.71428571428571, 70.0, 66.66666666666667, 61.53846153846154, 61.17647058823529, 62.0]
+REG_PARAMETHER = [["files/test_files/registro2.json", [77, 0, 77]],
+                  ["files/test_files/registro.json", [84, 83, 85, 81, 82, 87, 83, 76, 76, 77]],
+                  ["files/test_files/registroAllNull.json", [0, 0, 0]]]
+
+def valida_campo_parametrizado(parametros):
+    dictionary_keys = [list(inner_list[0].keys())[0] for inner_list in PARAMETHER if isinstance(inner_list[0], dict)]
+    dictionary_values = [list(inner_list[0].values())[0] for inner_list in PARAMETHER if isinstance(inner_list[0], dict)]
+
+    for k, v, p in zip(dictionary_keys, dictionary_values, parametros):
+        print(k, v)
+        assert valida_campo(k, v) == p[1]
+
+def valida_registro_paramm(paramm):
+    for p in paramm:
+        path = p[0]
+        registro = valida_registro(path)
+        assert registro == p[1]
 
 def test_valida_registro_bad_format():
     path = 'files/test_files/hw.json'
@@ -50,15 +63,7 @@ def test_valida_campo_nationality_vazio():
 
     assert res == 0
 
-def valida_campo_parametrizado(parametros):
-    dictionary_keys = [list(inner_list[0].keys())[0] for inner_list in PARAMETHER if isinstance(inner_list[0], dict)]
-    dictionary_values = [list(inner_list[0].values())[0] for inner_list in PARAMETHER if isinstance(inner_list[0], dict)]
-
-    for k, v, p in zip(dictionary_keys, dictionary_values, parametros):
-        print(k, v)
-        assert valida_campo(k, v) == p[1]
-
-def test_parametrizado():
+def test_valida_campo_parametrizado():
     valida_campo_parametrizado(PARAMETHER)
 
 def test_valida_campo_authors():
@@ -74,3 +79,6 @@ def test_valida_campo_authors_vazio():
     res = valida_campo(chave, valor)
 
     assert res == 0
+
+def test_valida_registro_parametrizado():
+    valida_registro_paramm(REG_PARAMETHER)
