@@ -3,7 +3,8 @@ from pytest import raises
 
 PARAMETHER = [[{"title": ""}, 0],
               [{"Nationality": {"nationality": "brasileiro", "birthCity": "", "BirthSate": "Rio de Janeiro"}}, 1], 
-              [{"identifier": {"identifier.lattes": "6783234820", "identifier.orcid": "4783927436729W"}}, 0]]
+              [{"identifier": {"identifier.lattes": "6783234820", "identifier.orcid": "4783927436729W"}}, 0],
+              [{"authors": {"nome" : "Luciana Veloso da Costa", "ordemAutoria" : "1", "citationName" : "" }}, 1]]
 
 def test_valida_registro():
     path = 'files/test_files/registro.json'
@@ -59,3 +60,17 @@ def valida_campo_parametrizado(parametros):
 
 def test_parametrizado():
     valida_campo_parametrizado(PARAMETHER)
+
+def test_valida_campo_authors():
+    chave = 'authors'
+    valor = {"name": "Luciana Veloso da Costa", "ordemAutoria": "1", "citationName": ""}
+    res = valida_campo(chave, valor)
+
+    assert res == 1
+
+def test_valida_campo_authors_vazio():
+    chave = 'authors'
+    valor = {"name": "", "ordemAutoria": "", "citationNAme": ""}
+    res = valida_campo(chave, valor)
+
+    assert res == 0

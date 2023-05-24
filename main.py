@@ -54,7 +54,13 @@ def valida_registro(path):
 def valida_campo(chave, valor):
     #Regra OR Inclusivo
     res = 0
-    if chave == 'Nationality' and valor:
+    if chave == 'authors' and valor:
+            for n in valor:
+                res = valida_campo(n, valor[n])
+                if res == 1:
+                    return 1    
+            return 0
+    elif chave == 'Nationality' and valor:
             for n in valor:
                 res = valida_campo(n, valor[n])
                 if res == 1:
