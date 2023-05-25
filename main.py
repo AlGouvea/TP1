@@ -22,14 +22,14 @@ def valida_registro(path):
     for registro in reg_list:
         val = 0
         for item in registro.items():
-            #Fora de info dos autores
+            completude_autores = 0
+            total_autores = 0
+           #Fora de info dos autores
             if item[0] == 'title' or item[0] == 'publicationDate' or item[0] == 'language':
                 val += valida_campo(item[0], item[1])
 
             #Info dos autores
-            completude_autores = 0
-            total_autores = 0
-            if item[0] == 'authors':
+            elif item[0] == 'authors':
                 for author in item[1]:
                     total_autores += 1
                     val_author = 0
@@ -44,17 +44,25 @@ def valida_registro(path):
                     val_author += valida_campo('identifier', identifier)
                     val_author += valida_campo('Nationality', nationality)
                     completude_autores += val_author
+                
+                if total_autores:
+                    val += completude_autores/total_autores
+                    
 
-                val += (completude_autores/total_autores)
-
-        res.append(100*(val/5))
+        res.append(int(100*(val/4)))
 
     return res
 
 def valida_campo(chave, valor):
     #Regra OR Inclusivo
     res = 0
-    if chave == 'Nationality' and valor:
+    if chave == 'authors' and valor:
+            for n in valor:
+                res = valida_campo(n, valor[n])
+                if res == 1:
+                    return 1    
+            return 0
+    elif chave == 'Nationality' and valor:
             for n in valor:
                 res = valida_campo(n, valor[n])
                 if res == 1:
@@ -76,7 +84,7 @@ def valida_campo(chave, valor):
 
 
 if __name__ == '__main__':
-    print(valida_registro('files/test_files/registro.json'))
+    print(valida_registro('files/test_files/registro2.json'))
     
     #parte para auxiliar na implementacao
     #ret = valida_registro('files/test_files/registro.json')
